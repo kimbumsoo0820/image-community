@@ -3,20 +3,31 @@ import { Text, Input, Grid, Button } from "../elements";
 import { getCookie, setCookie, deleteCookie } from "../shared/Cookie";
 
 import { useDispatch } from "react-redux";
+// as하면 그 뒤에 별명을 지어주는 것이다.
 import { actionCreators as userActions } from "../redux/modules/user";
+import { emailCheck } from "../shared/common";
 
 const Login = (props) => {
+  // dispatch 불러와서 사용한다.
   const dispatch = useDispatch();
 
   const [id, setId] = React.useState("");
   const [pwd, setPwd] = React.useState("");
 
   const login = () => {
+    console.log(id);
+
     if (id === "" || pwd === "") {
-      window.alert("아이디 혹은 비밀번호가 공란입니다! 입력해주세요!");
+      window.alert("아이디 혹은 비밀번호가 공란입니다. 입력해주세요!");
       return;
     }
 
+    if (!emailCheck(id)) {
+      window.alert("이메일 형식이 맞지 않습니다.");
+      return;
+    }
+
+    // action 불러와서 사용한다. ()안에는 액션생성함수를 넣어준다.
     dispatch(userActions.loginFB(id, pwd));
   };
 

@@ -31,7 +31,7 @@ Image.defaultProps = {
 };
 
 const Aspectoutter = styled.div`
-  width: 100%auto;
+  width: auto;
   min-width: 250px;
 `;
 
