@@ -5,36 +5,48 @@ import { getCookie, deleteCookie } from "../shared/Cookie";
 import { useSelector, useDispatch } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
 import { history } from "../redux/configureStore";
+import { apiKey } from "../shared/firebase";
+import Permit from "../shared/Permit";
 const Header = (props) => {
   const dispatch = useDispatch();
 
   // 로그인 정보 가져옴
   const is_login = useSelector((state) => state.user.is_login);
 
-  if (is_login) {
-    return (
-      <React.Fragment>
-        <Grid is_flex>
-          <Grid>
-            <Text margin="0px" size="24px" bold>
-              헬로
-            </Text>
-          </Grid>
+  // session 에서 복붙 해와서 중간에 api 키만 바꿔주면 된다.
+  const _session_key = `firebase:authUser:${apiKey}:[DEFAULT]`;
+  const is_session = sessionStorage.getItem(_session_key) ? true : false;
 
-          <Grid is_flex>
-            <Button text="내정보"></Button>
-            <Button text="알림"></Button>
-            <Button
-              text="로그아웃"
-              _onClick={() => {
-                dispatch(userActions.logOut({}));
-              }}
-            ></Button>
-          </Grid>
+  console.log(is_session);
+
+  // if (is_login && is_session) {
+  //   return (
+
+  //   );
+  // }
+  // Permit은 로그인 했는지 안했는지 검사하는 컴포넌트
+  <Permit>
+    <React.Fragment>
+      <Grid is_flex>
+        <Grid>
+          <Text margin="0px" size="24px" bold>
+            헬로
+          </Text>
         </Grid>
-      </React.Fragment>
-    );
-  }
+
+        <Grid is_flex>
+          <Button text="내정보"></Button>
+          <Button text="알림"></Button>
+          <Button
+            text="로그아웃"
+            _onClick={() => {
+              dispatch(userActions.logoutFB());
+            }}
+          ></Button>
+        </Grid>
+      </Grid>
+    </React.Fragment>
+  </Permit>;
 
   return (
     <React.Fragment>

@@ -48,7 +48,12 @@ const loginFB = (id, pwd) => {
         .then((user) => {
           console.log(user);
           dispatch(
-            setUser({ user_name: user.displayName, id: id, user_profile: "" })
+            setUser({
+              user_name: user.displayName,
+              id: id,
+              user_profile: "",
+              uid: user.user.uid,
+            })
           );
           history.push("/");
         })
@@ -76,7 +81,12 @@ const signupFB = (id, pwd, user_name) => {
           })
           .then(() => {
             dispatch(
-              setUser({ user_name: user_name, id: id, user_profile: "" })
+              setUser({
+                user_name: user_name,
+                id: id,
+                user_profile: "",
+                user: user.uid,
+              })
             );
             history.push("/");
           })
@@ -92,6 +102,37 @@ const signupFB = (id, pwd, user_name) => {
         console.log(errorCode, errorMessage);
         // ..
       });
+  };
+};
+
+//새로고침 됐을 때 리덕스에 있는 로그인 정보가 날아가니깐 세션에서 다시 리덕스에 넣어주기 위한 함수
+const loginCheckFB = () => {
+  return function (dispatch, getState, { history }) {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        dispatch(
+          setUser({
+            user_name: user.displayName,
+            user_profile: "",
+            id: user.email,
+            uid: user.uid,
+          })
+        );
+      } else {
+        dispatch(logOut());
+      }
+    });
+  };
+};
+
+const logoutFB = () => {
+  return function (dispatch, getState, { history }) {
+    auth.signOut().then(() => {
+      dispatch(logOut());
+      // push를 안쓴 이유: 작성페이지거나 이미 메인페이지 인 경우 더는 나타내지 않아야할 공간에 접근하면 안되니까
+      // replace는 페이지를 바꿔치기 한다는 뜻.
+      history.replace("/");
+    });
   };
 };
 
@@ -128,5 +169,7 @@ const actionCreators = {
   getUser,
   signupFB,
   loginFB,
+  loginCheckFB,
+  logoutFB,
 };
 export { actionCreators };

@@ -11,9 +11,27 @@ import Login from "../pages/Login";
 import Signup from "../pages/Signup";
 
 import Header from "../components/Header";
-import { Grid } from "../elements";
+import { Button, Grid } from "../elements";
+
+import { actionCreators as userActions } from "../redux/modules/user";
+import { useDispatch } from "react-redux";
+
+import { apiKey } from "./firebase";
+import Permit from "./Permit";
 
 function App() {
+  const dispatch = useDispatch();
+
+  const _session_key = `firebase:authUser:${apiKey}:[DEFAULT]`;
+  const is_session = sessionStorage.getItem(_session_key) ? true : false;
+
+  //컴포넌트 라이프사이클의 componentDidMount (처음) 랑 componentDidUpdate (우리가 원하는 변화를 모두 반영하고 난 뒤에 호출) 를 동시에 수행한다.
+  React.useEffect(() => {
+    //session 이 있으면 loginCheckFB 실행 시킴
+    if (is_session) {
+      dispatch(userActions.loginCheckFB());
+    }
+  }, []);
   return (
     <React.Fragment>
       <Grid>
@@ -24,6 +42,11 @@ function App() {
           <Route path="/signup" exact component={Signup}></Route>
         </ConnectedRouter>
       </Grid>
+      <Permit>
+        <Button is_float text="+">
+          +
+        </Button>
+      </Permit>
     </React.Fragment>
   );
 }
