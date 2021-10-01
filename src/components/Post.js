@@ -6,7 +6,7 @@ import React from "react";
 import { Grid, Image, Text } from "../elements/index";
 
 const Post = (props) => {
-  console.log(props);
+  console.log("나요 나" + props);
   return (
     <React.Fragment>
       <Grid>

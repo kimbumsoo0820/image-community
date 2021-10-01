@@ -5,6 +5,7 @@ const getCookie = (name) => {
   // [aa=xx/ aaa; abbb=ssss;]  앞에 친구 버리고 뒷 친구만 가져오려면?  - 잘 이해안됨
 
   // pop 과 shift 를 자세히 알아보기! 서로 반대의 개념
+
   if (parts.length === 2) {
     return parts.pop().split(";").shift();
   }
