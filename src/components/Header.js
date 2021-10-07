@@ -35,17 +35,17 @@ const Header = (props) => {
         <Grid is_flex padding="4px 16px">
           <Grid>
             <Text margin="0px" size="24px" bold>
-              하이
+              Bumstagram
             </Text>
           </Grid>
 
           <Grid is_flex>
-            <Button text="내정보"></Button>
             <NotiBadge
               _onClick={() => {
                 history.push("/noti");
               }}
             />
+            <Button text="내정보"></Button>
             <Button
               text="로그아웃"
               _onClick={() => {
@@ -63,7 +63,7 @@ const Header = (props) => {
       <Grid is_flex>
         <Grid>
           <Text margin="0px" size="24px" bold>
-            헬로
+            Bumstagram
           </Text>
         </Grid>
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Grid, Image, Text, Button } from "../elements";
 import { history } from "../redux/configureStore";
@@ -22,14 +22,18 @@ const Post = React.memo((props) => {
   };
 
   // 로그인 안한 유저를 위한 처리 (로그인을 안하면 user_info가 없어서 에러가 났음)
-  if (user_info) {
-    const goodArr = props.good_user;
-    console.log("tes", goodArr);
+  useEffect(() => {
+    if (user_info) {
+      const goodArr = props.good_user;
+      console.log("tes", goodArr);
 
-    const founded = goodArr.find((e) => e == `${user_info.uid}`);
-    console.log("찾음", founded);
-    setFound(founded);
-  }
+      const founded = goodArr.find((e) => e == `${user_info.uid}`);
+      console.log("찾음", founded);
+      setFound(founded);
+
+      console.log("거의 다옴", props);
+    }
+  }, [props.good_user]);
 
   return (
     <React.Fragment>
