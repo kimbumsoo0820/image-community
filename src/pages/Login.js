@@ -26,7 +26,6 @@ const Login = (props) => {
       window.alert("이메일 형식이 맞지 않습니다.");
       return;
     }
-
     // action 불러와서 사용한다. ()안에는 액션생성함수를 넣어준다.
     dispatch(userActions.loginFB(id, pwd));
   };
@@ -56,6 +55,10 @@ const Login = (props) => {
             _onChange={(e) => {
               setPwd(e.target.value);
             }}
+            // 엔더하면 로그인
+            value={pwd}
+            is_submit
+            onSubmit={login}
           />
         </Grid>
 

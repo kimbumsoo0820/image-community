@@ -1,8 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
+// Image 함수형 컴포넌트를 만들어 준다.
 const Image = (props) => {
-  const { shape, src, size } = props;
+  const { shape, src, size, _onClick } = props;
 
   const styles = {
     src: src,
@@ -10,27 +11,39 @@ const Image = (props) => {
   };
 
   if (shape === "circle") {
-    return <ImageCircle {...styles}></ImageCircle>;
+    return <ImageCircle {...styles} onClick={_onClick}></ImageCircle>;
   }
 
   if (shape === "rectangle") {
     return (
-      <Aspectoutter>
-        <AspectInner {...styles}></AspectInner>
-      </Aspectoutter>
+      <AspectOutter>
+        <AspectInner {...styles} onClick={_onClick}></AspectInner>
+      </AspectOutter>
     );
   }
-
-  return <React.Fragment></React.Fragment>;
+  return (
+    <React.Fragment>
+      <ImageDefault {...styles} onClick={_onClick}></ImageDefault>
+    </React.Fragment>
+  );
 };
 
 Image.defaultProps = {
   shape: "circle",
-  src: "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMTA5MjRfMjIx%2FMDAxNjMyNDE1MDM5Nzk2.Tn3xVJHw4VAM-VQklFQlmrmEzcFi9Vrkm1wJ926w3jUg.NoQ_5eyTi8HbK-des5oJMgwtIUIMF8-EzBJHNiogbTMg.JPEG.rkfka1217%2F20190218%25A3%25DF161309%25A3%25DFIMG%25A3%25DF6797.JPG&type=sc960_832",
+  src: "https://s3.ap-northeast-2.amazonaws.com/bucketlist.me/D6BA7E66-5A99-46E8-8D64-1FF6F1C0351C.jpeg",
   size: 36,
+  _onClick: () => {},
 };
 
-const Aspectoutter = styled.div`
+const ImageDefault = styled.div`
+  --size: ${(props) => props.size}px;
+  width: var(--size);
+  height: var(--size);
+  background-image: url("${(props) => props.src}");
+  background-size: cover;
+`;
+
+const AspectOutter = styled.div`
   width: auto;
   min-width: 250px;
 `;
@@ -48,7 +61,6 @@ const ImageCircle = styled.div`
   width: var(--size);
   height: var(--size);
   border-radius: var(--size);
-
   background-image: url("${(props) => props.src}");
   background-size: cover;
   margin: 4px;

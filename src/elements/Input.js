@@ -1,18 +1,27 @@
+import React from "react";
 import styled from "styled-components";
 
-import React from "react";
 import { Text, Grid } from "./index";
 
 const Input = (props) => {
-  const { label, placeholder, _onChange, type, multiLine } = props;
+  const {
+    label,
+    placeholder,
+    _onChange,
+    type,
+    multiLine,
+    value,
+    is_submit,
+    onSubmit,
+  } = props;
 
   if (multiLine) {
     return (
       <Grid>
-        {/* 삼항연산자로 써도 됨 */}
         {label && <Text margin="0px">{label}</Text>}
         <ElTextarea
           rows={10}
+          value={value}
           placeholder={placeholder}
           onChange={_onChange}
         ></ElTextarea>
@@ -23,8 +32,22 @@ const Input = (props) => {
   return (
     <React.Fragment>
       <Grid>
-        {label ? "" : <Text margin="0px">{label}</Text>}
-        <ElInput type={type} placeholder={placeholder} onChange={_onChange} />
+        {label && <Text margin="0px">{label}</Text>}
+        {is_submit ? (
+          <ElInput
+            type={type}
+            placeholder={placeholder}
+            onChange={_onChange}
+            value={value}
+            onKeyPress={(e) => {
+              if(e.key === "Enter"){
+                onSubmit(e);
+              }
+            }}
+          />
+        ) : (
+          <ElInput type={type} placeholder={placeholder} onChange={_onChange} />
+        )}
       </Grid>
     </React.Fragment>
   );
@@ -33,8 +56,11 @@ const Input = (props) => {
 Input.defaultProps = {
   multiLine: false,
   label: false,
-  placeholder: "텍스트를 입력해 주세요.",
+  placeholder: "텍스트를 입력해주세요.",
   type: "text",
+  value: "",
+  is_submit: false,
+  onSubmit: () => {},
   _onChange: () => {},
 };
 
