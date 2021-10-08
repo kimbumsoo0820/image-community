@@ -65,12 +65,8 @@ const editPostFB = (post_id = null, post = {}) => {
       return;
     }
     const _image = getState().image.preview;
-
     const _post_idx = getState().post.list.findIndex((p) => p.id === post_id);
     const _post = getState().post.list[_post_idx];
-
-    console.log(_post);
-
     const postDB = firestore.collection("post");
 
     if (_image === _post.image_url) {
@@ -81,7 +77,6 @@ const editPostFB = (post_id = null, post = {}) => {
           dispatch(editPost(post_id, { ...post }));
           history.replace("/");
         });
-
       return;
     } else {
       const user_id = getState().user.user.uid;

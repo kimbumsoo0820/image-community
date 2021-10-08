@@ -105,7 +105,7 @@ const signupFB = (id, pwd, user_name) => {
                 uid: user.user.uid,
               })
             );
-            history.push("/");
+            history.push("/login");
           })
           .catch((error) => {
             console.log(error);
