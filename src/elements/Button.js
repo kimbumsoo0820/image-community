@@ -44,7 +44,9 @@ const ElButton = styled.button`
   padding: ${(props) => props.padding};
   box-sizing: border-box;
   border: none;
+  cursor: pointer;
   ${(props) => (props.margin ? `margin: ${props.margin};` : "")}
+  font-size: 15px;
 `;
 
 const FloatButton = styled.button`

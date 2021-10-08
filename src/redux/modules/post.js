@@ -210,6 +210,8 @@ const getPostFB = (start = null, size = 3) => {
 
           // 배열로 만들어준다.
           // ['comment_cnt', 'contents', ...]
+
+          //reduce는 배열의 내장함수 filter나 map과 비슷함 MDN 참고
           let post = Object.keys(_post).reduce(
             (acc, cur) => {
               if (cur.indexOf("user_") !== -1) {
@@ -243,9 +245,7 @@ const getOnePostFB = (id) => {
       .then((doc) => {
         console.log(doc);
         console.log(doc.data());
-
         let _post = doc.data();
-
         let post = Object.keys(_post).reduce(
           (acc, cur) => {
             if (cur.indexOf("user_") !== -1) {
@@ -267,18 +267,17 @@ const getOnePostFB = (id) => {
 const SetGoodFB = (post_id = null) => {
   return function (dispatch, getState, { history }) {
     const _post_idx = getState().post.list.findIndex((p) => p.id === post_id);
-    const _post = getState().post.list[_post_idx];
 
+    const _post = getState().post.list[_post_idx];
+    console.log("소크라테스", _post);
     const user_info = getState().user.user;
 
     // db에 넣기 위해 post를 다시 만들어준다. (기존의 post에 good_user를 넣음)
     const post = {
-      ..._post,
+      // ..._post,
       good_user: [..._post.good_user, user_info.uid],
     };
-
     const postDB = firestore.collection("post");
-
     postDB
       .doc(post_id)
       .update(post)
@@ -296,12 +295,10 @@ const DeleteGoodFB = (post_id = null) => {
     const user_info = getState().user.user;
     const postDB = firestore.collection("post");
 
-    console.log(_post);
     const result = _post.good_user.filter((good) => good !== user_info.uid);
-    console.log("뭐야 도대체", result);
 
     const post = {
-      ..._post,
+      // ..._post,
       good_user: result,
     };
 

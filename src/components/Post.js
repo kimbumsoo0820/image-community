@@ -28,10 +28,8 @@ const Post = React.memo((props) => {
       console.log("tes", goodArr);
 
       const founded = goodArr.find((e) => e == `${user_info.uid}`);
-      console.log("찾음", founded);
-      setFound(founded);
 
-      console.log("거의 다옴", props);
+      setFound(founded);
     }
   }, [props.good_user]);
 
@@ -129,6 +127,7 @@ const HeartButton = styled.button`
   border: none;
   background-color: white;
   font-size: 25px;
+  color: lightpink;
 `;
 
 export default Post;
